@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KENTECH - Find Your Seat</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <h1>Your seat number is</h1>
+    <p id="seat_number">N/A</p>
+</div>
+</body>
+
+<script>
+    function getDuid() {
+        let navigator_info = window.navigator;
+        let screen_info = window.screen;
+        let uid = navigator_info.mimeTypes.length;
+
+        uid += navigator_info.userAgent.replace(/\D+/g, '');
+        uid += navigator_info.plugins.length;
+        uid += screen_info.height || '';
+        uid += screen_info.width || '';
+        uid += screen_info.pixelDepth || '';
+
+        return uid;
+    }
+
+    function getSeat() {
+        $.ajax({
+            url: '{% url 'getSeatApi' %}',
+            type: 'get',
+            data: `device_uuid=${getDuid()}`
+        }).done((data, _, __) => $('#seat_number').text(data['seat_number']));
+    }
+
+    $(document).ready(() => getSeat());
+</script>
+
+<style>
+    #seat_number {
+        font-size: 200px;
+    }
+</style>
+
+</html>
