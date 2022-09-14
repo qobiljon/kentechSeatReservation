@@ -4,5 +4,5 @@ from app import models
 
 class SeatSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = models.Seat
+		model = models.StudentSeat
 		fields = ['seat_number', 'device_uuid']

@@ -31,13 +31,24 @@
 
     function getSeat() {
         $.ajax({
-            url: '{% url 'getSeatApi' %}',
+            url:
+                {% if is_professor %}
+                    '{% url 'getProfessorSeatApi' %}'
+                {% else %}
+                    '{% url 'getStudentSeatApi' %}'
+                {% endif %},
             type: 'get',
             data: `device_uuid=${getDuid()}`
         }).done((data, _, __) => $('#seat_number').text(data['seat_number']));
     }
 
-    $(document).ready(() => getSeat());
+    $(document).ready(() => {
+        {% if not is_professor and not is_student %}
+            window.close();
+        {% else %}
+            getSeat();
+        {% endif %}
+    });
 </script>
 
 <style>

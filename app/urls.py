@@ -6,6 +6,10 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('api-auth/', include('rest_framework.urls')),
 
-	path('', views.index, name='index'),
-	path('get_seat', views.get_seat, name='getSeatApi'),
+	path('', views.redirect_to_student, name='index'),
+	path('student', views.index, name='student'),
+	path('professor', views.index, name='professor'),
+
+	path('get_professor_seat', views.get_professor_seat, name='getProfessorSeatApi'),
+	path('get_student_seat', views.get_student_seat, name='getStudentSeatApi'),
 ]
